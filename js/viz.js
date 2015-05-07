@@ -1,5 +1,5 @@
 $( document ).ready(function() {
-  var width = 960,
+  var width = 600,
       height = 500
 
   var svg = d3.select("body").append("svg")
@@ -37,7 +37,7 @@ $( document ).ready(function() {
     //     .attr("height", 16);
 
     node.append("circle")
-          .attr("r", function(d){return d.size})
+          .attr("r", function(d){return d.size *2 })
           .attr("style","fill:steelblue")
 
     // node.append("text")
