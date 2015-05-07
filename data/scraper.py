@@ -173,15 +173,15 @@ if __name__ == '__main__':
 
 
         # Link
-        # coreLink = {}
-        # # coreLink evert PostNode to CoreNode (All posts linked to core node).
-        # coreLink['source'] = 0   # all being set to initial node for now.
-        # coreLink['target'] = postNode['id']
-        # coreLink['value'] = 1
-        # coreLink['debugsource'] = 0
-        # coreLink['debugtarget'] = postNode['id']
-        # coreLink['type'] = 'coreLink'
-        # links.append(coreLink)
+        coreLink = {}
+        # coreLink evert PostNode to CoreNode (All posts linked to core node).
+        coreLink['source'] = 0   # all being set to initial node for now.
+        coreLink['target'] = postNode['id']
+        coreLink['value'] = 1
+        coreLink['debugsource'] = 0
+        coreLink['debugtarget'] = postNode['id']
+        coreLink['type'] = 'coreLink'
+        links.append(coreLink)
 
 
 
