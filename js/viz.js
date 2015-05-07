@@ -1,4 +1,4 @@
-$( document ).ready(function() { 
+$( document ).ready(function() {
   var width = 960,
       height = 500
 
@@ -12,7 +12,7 @@ $( document ).ready(function() {
       .charge(-100)
       .size([width, height]);
 
-  d3.json("data/panama.json", function(error, json) {
+  d3.json("data/panama2.json", function(error, json) {
     force
         .nodes(json.nodes)
         .links(json.links)
@@ -44,15 +44,15 @@ $( document ).ready(function() {
     //     .attr("dx", 12)
     //     .attr("dy", ".15em")
     //     .text(function(d) { return d.name });
-    //     
-    //     
+    //
+    //
     node.append("svg:text")
         .attr("class", "nodetext")
         .attr("dx", 12)
         .attr("dy", ".35em")
         .text(function(d) { return d.name });
 
-        
+
     force.on("tick", function() {
       link.attr("x1", function(d) { return d.source.x; })
           .attr("y1", function(d) { return d.source.y; })

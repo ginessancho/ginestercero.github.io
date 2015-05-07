@@ -5,7 +5,7 @@ import sys
 import codecs
 import operator
 
-TOKEN = 'CAACEdEose0cBAG0VbgX1ZB7DilLKfOk4V7CHWLah8XTbxHyMMTN4AVkohydTT8LzHf1XI1zDA0ngbOo1pLrNoIaJQ3hnfEiZADAGWlZCsxEeZBQbBwZBSkWMwGWI7cl20OkTHNlpMgM6Df1oIeAJHRlg5vU8ofdm8H5ty8pbZBRPh23nakwJBmdnfANNAyFIEqvz7lo8myAewx4FRmQLUE26XW1AcZC6XAZD'
+TOKEN = 'CAACEdEose0cBAHdYTyzsjIiXZAhEZCoLZBoGlZBH0auczsrtj6FprHdGM56YWgIRoeQb3twh4tq4IEoM5uyBS7V6GxPtKellYnvoCJQus9RvaFlUwETzIES9io2axKDROcvhswsgTkbI2bcklcHF2etZBhMrZCL4ORFsZBtHUkQIR5ZBeVw5AEKZB8T4HRlunYVwjbCZCjfcGqPWDLT7CNFUxc'
 
 def get_posts():
     """
@@ -27,7 +27,7 @@ def comment_on_posts(posts):
 
 if __name__ == '__main__':
     posts =  get_posts()
-    nodes = [] 
+    nodes = []
     links = []
 
     id_count = 0
@@ -37,13 +37,13 @@ if __name__ == '__main__':
                 'nodeType':'coreNode',
                 'group' : 0
                 }
-    id_count = id_count + 1 
+    id_count = id_count + 1
 
     nodes.append(coreNode)
 
     for p in posts:
 
-        # postNode parsing    
+        # postNode parsing
         postNode = {}
 
         # assign an id to postNode
@@ -54,7 +54,7 @@ if __name__ == '__main__':
         postNode['nodeType'] = 'postNode'
         postNode['fb_id'] = p['id']
         if  'name' in p:
-            postNode['name'] = p['name'] #relationship event actor. 
+            postNode['name'] = p['name'] #relationship event actor.
         if  'message' in p:
             postNode['message'] = p['message']
         if  'description' in p:
@@ -65,43 +65,43 @@ if __name__ == '__main__':
 
         postNode['group'] = 1
 
-        # postNode Size Calculation: 
+        # postNode Size Calculation:
         like_count = 0
         if 'likes' in p:
             likedata =  p['likes']['data']
             for i in likedata:
-                # Check if liker exists already in the list of liker nodes. 
-                # If it does exsit, then add a link from that existing Liker Node to this new post. 
-                # If it does not exist, add the liker node,  as usual. 
+                # Check if liker exists already in the list of liker nodes.
+                # If it does exsit, then add a link from that existing Liker Node to this new post.
+                # If it does not exist, add the liker node,  as usual.
 
-                likerExists = False 
+                likerExists = False
                 likerID = -1
                 for n in nodes:
                     if 'fb_id' in n:
                         # print n['fb_id'], i['id']
                         if n['fb_id'] == i['id']:
                             likerExists = True
-                            likerID = n['id'] #save that id which exists. 
+                            likerID = n['id'] #save that id which exists.
 
 
                 if likerExists == True:
-                    likeLink = {} 
+                    likeLink = {}
                     likeLink['source'] = likerID
-                    likeLink['target'] = postNode['id'] # links to current Node. 
+                    likeLink['target'] = postNode['id'] # links to current Node.
                     likeLink['type'] = 'likeLink'
                     likeLink['value'] = 1
                     likeLink['debugsource'] = likerID
-                    likeLink['debugtarget'] = postNode['id']                    
+                    likeLink['debugtarget'] = postNode['id']
                 else:
                     ##### LIKER NODE
                     likerNode = {}
                     likerNode['nodeType'] = 'likerNode'
                     likerNode['fb_id'] = i['id']
                     likerNode['name'] = i['name']
-                    likerNode['size'] = 1 
+                    likerNode['size'] = 1
                     likerNode['group'] = 2
                     like_count = like_count + 1
-                    # id 
+                    # id
                     likerNode['id'] = id_count
                     id_count = id_count + 1
                     #add likerNode
@@ -112,7 +112,7 @@ if __name__ == '__main__':
                     # print '***********************','***********************','***********************'
                     nodes.append(likerNode)
 
-                    # add link from likerNode to post. 
+                    # add link from likerNode to post.
                     likeLink = {}
                     likeLink['source'] = likerNode['id']
                     likeLink['target'] = postNode['id']
@@ -124,15 +124,15 @@ if __name__ == '__main__':
                     links.append(likeLink)
 
         share_count = 0
-        if 'shares' in p: 
+        if 'shares' in p:
             share_count = int ( p['shares']['count'])
 
         size = 1 + like_count + share_count #adding 1 to offset the zero
-        
+
         postNode['size'] = size
-        
-           
-        # print '----------id count----', id_count;       
+
+
+        # print '----------id count----', id_count;
         # print  '***********************', 'Adding PostNode with id:', postNode['id'], '***********************'
         # print postNode
         # print '***********************','***********************','***********************'
@@ -141,10 +141,10 @@ if __name__ == '__main__':
 
         # TAGGED NODE ##3
         taggedNode = {}
-        if 'message_tags' in p: 
+        if 'message_tags' in p:
             tags = p['message_tags']
             for key in tags.items():
-                taggedNode = {} 
+                taggedNode = {}
                 taggedNode['nodeType'] = 'taggedNode'
                 taggedNode['fb_id'] = key[1][0]['id']
                 taggedNode['name'] = key[1][0]['name']
@@ -154,15 +154,15 @@ if __name__ == '__main__':
                 taggedNode['id'] = id_count
                 id_count = id_count + 1
 
-                # link taggedNode to post. 
+                # link taggedNode to post.
                 tagLink = {}
-                tagLink['source'] = taggedNode['id'] 
+                tagLink['source'] = taggedNode['id']
                 tagLink['target'] = postNode['id']
                 tagLink['type'] = 'tagLink'
                 tagLink['value'] = 1
                 links.append(tagLink)
 
-                # Add taggedNode    
+                # Add taggedNode
                 if taggedNode != {}:
                     # print "appending TAGGED", taggedNode, id_count
                     # print '----------id count----', id_count;
@@ -175,9 +175,9 @@ if __name__ == '__main__':
         # Link
         # coreLink = {}
         # # coreLink evert PostNode to CoreNode (All posts linked to core node).
-        # coreLink['source'] = 0   # all being set to initial node for now. 
+        # coreLink['source'] = 0   # all being set to initial node for now.
         # coreLink['target'] = postNode['id']
-        # coreLink['value'] = 1 
+        # coreLink['value'] = 1
         # coreLink['debugsource'] = 0
         # coreLink['debugtarget'] = postNode['id']
         # coreLink['type'] = 'coreLink'
