@@ -71,7 +71,7 @@ if __name__ == '__main__':
             likedata =  p['likes']['data']
             for i in likedata:
                 # Check if liker exists already in the list of liker nodes.
-                # If it does exsit, then add a link from that existing Liker Node to this new post.
+                # If it does exist, then add a link from that existing Liker Node to this new post.
                 # If it does not exist, add the liker node,  as usual.
 
                 likerExists = False
