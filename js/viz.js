@@ -1,27 +1,18 @@
 $( document ).ready(function() {
   var width = 960,
-      height = 500,
-      root;
+      height = 500
 
   var svg = d3.select("body").append("svg")
       .attr("width", width)
       .attr("height", height);
 
   var force = d3.layout.force()
-      .gravity(1)
+      .gravity(.3)
       .distance(100)
       .charge(-100)
       .size([width, height]);
 
-  d3.json("data/panama2.json", function (json) {
-  root = json;
-  update();
-});
-
-function update() {
-  var nodes = flatten(root),
-      links = d3.layout.tree().links(nodes);
-
+  d3.json("data/panama.json", function(error, json) {
     force
         .nodes(json.nodes)
         .links(json.links)
@@ -30,7 +21,7 @@ function update() {
     var link = svg.selectAll(".link")
         .data(json.links)
       .enter().append("line")
-        .attr("class", "link");
+        .attr("class", "link")
 
     var node = svg.selectAll(".node")
         .data(json.nodes)
@@ -46,8 +37,8 @@ function update() {
     //     .attr("height", 16);
 
     node.append("circle")
-          .attr("r", function(d){return d.size *2 ;})
-          .attr("style","fill:steelblue");
+          .attr("r", function(d){return d.size})
+          .attr("style","fill:steelblue")
 
     // node.append("text")
     //     .attr("dx", 12)
@@ -59,7 +50,7 @@ function update() {
         .attr("class", "nodetext")
         .attr("dx", 12)
         .attr("dy", ".35em")
-        .text(function(d) { return d.name; });
+        .text(function(d) { return d.name });
 
 
     force.on("tick", function() {
@@ -70,5 +61,5 @@ function update() {
 
       node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     });
-  }
+  });
 });

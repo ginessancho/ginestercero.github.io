@@ -1,24 +1,16 @@
 html {
-    font-family: "Arial Black", Gadget, sans-serif;
+    font-family: Lato;
 }
 .link {
-  fill: none;
-  stroke: #9ecae1;
-  stroke-width: 1.5px;
+  stroke: blue;
+  stroke-width: 2;
 }
 
 .node text {
   pointer-events: none;
-  font: 12px;
-  cursor: pointer;
-  stroke: #3182bd;
-  stroke-width: 1.5px
+  font: 5px sans-serif;
 }
 
-.node:not(:hover)
-.nodetext {
+.node:not(:hover) .nodetext {
   display: none;
-  cursor: pointer;
-  stroke: #3182bd;
-  stroke-width: 1.5px;
 }
